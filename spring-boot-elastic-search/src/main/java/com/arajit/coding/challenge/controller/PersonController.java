@@ -28,7 +28,7 @@ public class PersonController {
 
   private static final String INDEX = "persons";
 
-  @Value(value = "classpath:Persons.xml")
+  @Value(value = "classpath:data/Persons.xml")
   private Resource inputResource;
 
   @Autowired
@@ -44,7 +44,7 @@ public class PersonController {
           StreamUtils.copyToString(inputResource.getInputStream(), Charset.defaultCharset());
       
       if (logger.isDebugEnabled())
-        logger.debug("START - Loading data in index: ", INDEX);
+        logger.debug("START - Loading data in index: " + INDEX);
       
       indexService.createIndex(INDEX, requestBody);
       
@@ -57,7 +57,7 @@ public class PersonController {
   @ResponseBody
   public PersonInfo search(@PathVariable(name = "employeeId") String employeeId) throws Exception {
     if (logger.isDebugEnabled())
-      logger.debug("Performing search using employeeId: ", INDEX);
+      logger.debug("Performing search using employeeId: "+ employeeId);
     PersonInfo personInfo = new PersonInfo();
     personInfo.setPerson(searchService.searchByEmployeeId(employeeId));
     return personInfo;

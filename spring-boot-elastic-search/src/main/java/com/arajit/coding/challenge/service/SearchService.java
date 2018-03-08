@@ -1,8 +1,8 @@
 package com.arajit.coding.challenge.service;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.arajit.coding.challenge.domain.Person;
 
 @Service
@@ -43,20 +44,22 @@ public class SearchService {
     JSONObject root = new JSONObject(responseBody);
     JSONObject hits = root.getJSONObject("hits");
     JSONArray hitsArr = hits.getJSONArray("hits");
-    JSONObject source=hitsArr.getJSONObject(0).getJSONObject("_source");
-    if(null!=source) {
-      Person person=new Person();
-      person.setEmployeeId(source.getString("EmployeeId"));
-      person.setName(source.getString("Name"));
-      person.setAge(source.getInt("Age"));
-      person.setActive(source.getBoolean("Active"));
-      person.setStreetAddress(source.getString("StreetAddress"));
-      person.setEmail(source.getString("Email"));
-      person.setPhone(source.getString("Phone"));
-      person.setLogitude(source.getBigDecimal("Logitude"));
-      person.setLatitude(source.getBigDecimal("Latitude"));
-      person.setCity(source.getString("City"));
-      return person;
+    if(hitsArr.length()>0) {
+	    JSONObject source=hitsArr.getJSONObject(0).getJSONObject("_source");
+	    if(null!=source) {
+	      Person person=new Person();
+	      person.setEmployeeId(source.getString("EmployeeId"));
+	      person.setName(source.getString("Name"));
+	      person.setAge(source.getInt("Age"));
+	      person.setActive(source.getBoolean("Active"));
+	      person.setStreetAddress(source.getString("StreetAddress"));
+	      person.setEmail(source.getString("Email"));
+	      person.setPhone(source.getString("Phone"));
+	      person.setLogitude(source.getBigDecimal("Logitude"));
+	      person.setLatitude(source.getBigDecimal("Latitude"));
+	      person.setCity(source.getString("City"));
+	      return person;
+	    }
     }
     return null;
   }
