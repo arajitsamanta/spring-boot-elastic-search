@@ -36,8 +36,7 @@ public class IndexService {
    * @param indexName The name of the index to create
    * @param requestBody The mappings and settings for the index to be created
    */
-  public void createIndex(String indexName, String requestBody) {
-    try {
+  public void createIndex(String indexName, String requestBody) throws Exception{
 
       // Convert xml to jsn
       String requestBodyJson = converXmlToJson(requestBody);
@@ -71,9 +70,6 @@ public class IndexService {
         logger.error("Problem while creating an index: {}",
             response.getStatusLine().getReasonPhrase());
       }
-    } catch (Exception ex) {
-      logger.error("Problem in creating new index"+ex.fillInStackTrace());
-    }
   }
 
   /**

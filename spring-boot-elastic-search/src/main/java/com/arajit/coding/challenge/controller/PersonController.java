@@ -1,7 +1,7 @@
 package com.arajit.coding.challenge.controller;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.arajit.coding.challenge.domain.PersonInfo;
 import com.arajit.coding.challenge.service.IndexService;
 import com.arajit.coding.challenge.service.SearchService;
@@ -37,19 +38,18 @@ public class PersonController {
   private SearchService searchService;
 
   @PostMapping(path = "/load")
-  public void loadData() {
+  public void loadData() throws Exception{
 
-    try {
       String requestBody =
           StreamUtils.copyToString(inputResource.getInputStream(), Charset.defaultCharset());
+      
       if (logger.isDebugEnabled())
-        logger.debug("Loading data in index: ", INDEX);
+        logger.debug("START - Loading data in index: ", INDEX);
+      
       indexService.createIndex(INDEX, requestBody);
+      
       if (logger.isDebugEnabled())
-        logger.debug("Data loaded successfully.");
-    } catch (IOException e) {
-      logger.error("Error in creating index, ", INDEX);
-    }
+        logger.debug("END - Data loaded successfully.");
 
   }
 
